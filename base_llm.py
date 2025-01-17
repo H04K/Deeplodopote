@@ -5,7 +5,7 @@ import transformers
 pipelin = transformers.pipeline(
 	"text-generation",
 	model="microsoft/phi4",
-	model_kwargs="{'torch_dtype':"auto"},
+	model_kwargs={'torch_dtype': "auto"},
 	device_map:'auto'
 )
 
