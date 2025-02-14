@@ -4,18 +4,17 @@ import requests
 import pytz
 import yaml
 from tools.final_answer import FinalAnswerTool
-from huggingface_hub import InferenceClient
 
 from Gradio_UI import GradioUI
 
 # Below is an example of a tool that does nothing. Amaze us with your creativity !
 @tool
-def simple_calculator(arg1:str, arg2:int)-> str: #it's import to specify the return type
+def simple_calculator(arg1:int, arg2:int)-> str: #it's import to specify the return type
     #Keep this format for the description / args / args description but feel free to modify the tool
     """A simple calculator tool that adds two numbers. 
     Args:
-        arg1: An int or float representing the first number.
-        arg2: An int or float representing the second number.
+        arg1: An int representing the first number.
+        arg2: An int representing the second number.
     """
     return f"The sum of {arg1} and {arg2} is {arg1+arg2}"
 
@@ -36,8 +35,12 @@ def get_current_time_in_timezone(timezone: str) -> str:
 
 
 final_answer = FinalAnswerTool()
-client = InferenceClient("https://jc26mwg228mkj8dw.us-east-1.aws.endpoints.huggingface.cloud")
-model = HfApiModel(client)
+model = HfApiModel(
+max_tokens=2096,
+temperature=0.5,
+model_id='Qwen/Qwen2.5-Coder-32B-Instruct',# it is possible that this model may be overloaded
+custom_role_conversions=None,
+)
 
 
 # Import tool from Hub
